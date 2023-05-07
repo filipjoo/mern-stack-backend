@@ -7,26 +7,28 @@ const Schema = mongoose.Schema
 
 //Itemスキーマの定義
 const ItemSchema = new Schema({
-    title: {
+    title: String,         
+    image: String,
+    price:  String,     
+    description: String,
+    email: String,
+})
+
+const UserSchema = new Schema({
+    name: {
         type: String,
-        required: true,
-    },
-    image: {
-        type: String,
-        default: '',
-    },
-    price: {
-        type: Number,
-        default: 0,
-    },
-    description: {
-        type: String,
-        default: '',
+        required: true
     },
     email: {
         type: String,
-        default: '',
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true
     }
-})
+})   
 
-exports.ItemModel = mongoose.model('Item', ItemSchema)
+exports.ItemModel = mongoose.model("Item", ItemSchema) 
+exports.UserModel = mongoose.model("User", UserSchema) 
