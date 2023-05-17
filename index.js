@@ -42,6 +42,7 @@ app.post('/item/create', auth, async (req, res) => {
     console.log(req.body)
     try {
         await connectDB()
+        await ItemModel.create(req.body)
         return res.status(200).json({ message: 'create item!' });
     } catch (err) {
         console.error(err.message)
@@ -71,7 +72,7 @@ app.put('/item/update/:id', auth, async (req, res) => {
 app.delete('/item/delete/:id', auth, async (req, res) => {
     try {
         await connectDB()
-        const SingleItem = await ItemModel.findById(req.params.id)
+        const singleItem = await ItemModel.findById(req.params.id)
         // idを指定して削除
         if (singleItem.email === req.body.email) {
             await ItemModel.deleteOne({ _id: req.params.id })
@@ -105,15 +106,15 @@ const secret_key = "mern-market"
 app.post('/user/login', async (req, res) => {
     try {
         const result = await checkUser(req.body.email, req.body.password);
-
+        let token = ""
         // JWTの生成
         if (result.status === 200) {
             const payload = { email: req.body.email };
-            const token = jwt.sign(payload, secret_key, { expiresIn: '1h' });
+            token = jwt.sign(payload, secret_key, { expiresIn: '1h' });
             console.log(token)
         }
 
-        return res.status(result.status).json({ message: result.message });
+        return res.status(result.status).json({ message: result.message, token: token });
     } catch (err) {
         console.error(err.message)
         return res.status(500).json({ message: 'cann`t login user!' });
@@ -122,7 +123,7 @@ app.post('/user/login', async (req, res) => {
 
 
 // サーバーの起動
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 app.listen(port, () => {
-    console.log('Example app listening on port 3000!');
+    console.log('Example app listening on port ' + port);
 });

@@ -8,6 +8,7 @@ const auth = async(req, res, next) => {
         return next()
     }
 
+    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RfbWFpbDFAeWFob28uY28uanAiLCJpYXQiOjE2ODM3MzkwMDAsImV4cCI6MTY4Mzc0MjYwMH0.Nqxd4gBLAdc3bag3xHXK5KYIA7JtJsz6HrYylYdRxFo"
     const token = await req.headers.authorization.split(' ')[1]
 
 
